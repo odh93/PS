@@ -14,10 +14,11 @@ int function()
 		for (int j = 0; j < 3; j++)
 			cin >> arr[i][j];
 	}
-
-	for (int i = 0; i < 3; i++)
+	/* 1번집과 n번집의 색깔이 달라야 하는 것에 초점을 둬서
+	첫번째집의 색을 정하고 그것을 기준으로 dp를 따로 세워준다*/
+	for (int i = 0; i < 3; i++) // 첫번째집의 색을 정하는 for문
 	{
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < 3; j++) // 그 색이 일치하면 값을 주고 아니면 선택할 수 없게 최대값이상의 값을준다.
 		{
 			if (i == j)
 				dp[1][j] = arr[1][j];
@@ -25,7 +26,7 @@ int function()
 				dp[1][j] = 987654321;
 		}
 
-		for (int j = 2; j <= n; j++)
+		for (int j = 2; j <= n; j++) // 순서대로 빨강,초록,파랑을 0,1,2배열에
 		{
 			dp[j][0] = min(dp[j - 1][1], dp[j - 1][2]) + arr[j][0];
 			dp[j][1] = min(dp[j - 1][0], dp[j - 1][2]) + arr[j][1];
@@ -34,7 +35,7 @@ int function()
 
 		for (int j = 0; j < 3; j++)
 		{
-			if (i == j)
+			if (i == j) // 마지막배열은 첫번째집의 색과 다른색들만 갱신해준다.
 				continue;
 			ans = min(ans, dp[n][j]);
 		}
